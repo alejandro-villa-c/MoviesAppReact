@@ -1,46 +1,47 @@
-# Getting Started with Create React App
+# Películas 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+La empresa ʻPelina Beerʼ es una industria que se encarga de informar al usuario acerca de todas las películas que han salido en el cine. Para esto ellos utilizan medios de comunicación como anuncios, entre otras cosas. Resulta que estos gastos están siendo muy elevados y quieren que el usuario pueda acceder a esta información sin la necesidad de esperar ese boletín o anuncio. 
 
-## Available Scripts
+ʻPelina Beerʼ busca que a través de una herramienta pueda comunicar el listado de películas que están en cartelera, poder buscar información de películas que fueron estrenadas, filtrar por categorías, rating, entre otras. 
 
-In the project directory, you can run:
+## Requerimientos Técnicos 
 
-### `npm start`
+Las películas están contenidas en una cuadrícula donde cada una presenta supóster más relevante, así como también, el indicador que da a conocer si lamisma pertenece a las favoritas del usuario (este indicador puede ser presionadopara agregarla o removerla de dicha cuadrícula). 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Además de la cuadrícula mencionada anteriormente, también existe otra cuadrículaqué contiene las marcadas como favoritas. Ambas están presentes en la mismapantalla, en tabs separados. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Tanto la cuadrícula que contiene las mejores películas como la cuadrícula quecontiene las películas marcadas como favoritas, pueden ser ordenadas por loscriterios listados a continuación: 
 
-### `npm test`
+-	Nombre
+-	Año de publicación
+-	Calificación (predeterminado) 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Al seleccionar una película, el detalle de la misma es presentado. Este detalleconsiste de: 
 
-### `npm run build`
+-	Título
+-	Sipnosis
+-	Póster
+-	Calificación
+-	Indicador de favorita (puede ser presionado para agregarla o removerla de dicha cuadrícula)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Reglas 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-	Use la plataforma móvil en la que se sienta más confortable.
+-	No haga uso de ningún framework, un buen desarrollador debe saber seleccionar sus herramientas y ponerlas a funcionar en conjunto.
+-	El uso de librerías de terceros es permitido y alentado.
+-	Haga uso de .gitignore, evite al máximo incluir archivos innecesarios.
+-	Debe usar The Movie DB (https://www.themoviedb.org/documentation/api?language=en) como fuente externa de datos. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Criterios de Evaluación 
 
-### `npm run eject`
+1. Requerimientos técnicos.
+2. Organización y consistencia de la estructura de archivos y folders. 
+3. Modificabilidad y extensibilidad del sistema en los puntos requeridos. 4. Commit history (commits son organizados y descriptivos).
+5. Tiempo utilizado para completar la prueba.
+6. Complejidad de la solución. 
+7. SOLID principles.
+8. Uso correcto de patrones de diseño. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+# MoviesApp
