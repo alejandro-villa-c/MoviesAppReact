@@ -1,8 +1,8 @@
+import Movies from './components/Movies';
+
 export const Home = () => {
     return (
-        <div>
-            Home
-        </div>
+        <Movies></Movies>
     );
 };
 

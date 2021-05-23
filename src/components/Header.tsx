@@ -31,8 +31,15 @@ export const Header = () => {
     let end: JSX.Element = null;
     if (!!accountResponse) {
         end = <div className="p-d-flex">
-            <p className="p-d-inline-block p-my-auto p-mr-3">{ accountResponse.name || accountResponse.username }</p>
-            <Button icon="pi pi-sign-out" className="p-button-danger" onClick={ () => logoutAndNavigate(sessionId) } title="Cerrar sesión" />
+            <p className="p-d-inline-block p-my-auto p-mr-3">
+                { accountResponse.name || accountResponse.username }
+            </p>
+            <Button
+                icon="pi pi-sign-out"
+                className="p-button-danger"
+                onClick={ () => logoutAndNavigate(sessionId) }
+                title="Cerrar sesión"
+            />
         </div>;
     }
 
