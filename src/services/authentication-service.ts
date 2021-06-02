@@ -1,7 +1,14 @@
 import { useAppDispatch } from "../redux/hooks";
 import { setAccountResponse, setRequestToken, setSessionId } from "../redux/login/login-slice";
 import { useDelete, useGet, usePost } from "./base-http-service";
-import { TokenResponse, LoginRequestBody, SessionRequestBody, SessionResponse, AccountResponse, LogoutResponse } from "../models/index";
+import {
+    TokenResponse,
+    LoginRequestBody,
+    SessionRequestBody,
+    SessionResponse,
+    AccountResponse,
+    LogoutResponse
+} from "../models/index";
 
 const authenticationPath = 'authentication';
 const tokenPath = 'token';

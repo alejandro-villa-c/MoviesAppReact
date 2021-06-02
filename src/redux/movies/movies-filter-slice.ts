@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { normalize, schema, denormalize } from "normalizr";
 import { MovieSortOptions } from "../../enums/movie-sort-options";
-import { GenreResponse, MoviesFilter, NormalizedMoviesFilter, NormalizedSchemaMoviesFilter } from "../../models";
+import {
+    GenreResponse,
+    MoviesFilter,
+    NormalizedMoviesFilter,
+    NormalizedSchemaMoviesFilter
+} from "../../models";
 import { RootState } from "../store";
 
 export interface MoviesFilterState {

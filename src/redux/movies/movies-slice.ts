@@ -1,11 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GenericResponse, GenreResponse, GenresResponse, Movie, MovieResponse, MoviesFilter, MoviesResponse } from "../../models";
+import {
+    GenericResponse,
+    GenreResponse,
+    GenresResponse,
+    Movie,
+    MovieResponse,
+    MoviesFilter,
+    MoviesResponse
+} from "../../models";
 import { AppThunk, RootState } from "../store";
 
 export interface MoviesState {
-    movies: MovieResponse[];
+    movies: Movie[];
     totalMovies: number;
-    favoriteMovies: MovieResponse[];
+    favoriteMovies: Movie[];
     genres: GenreResponse[];
 };
 
@@ -104,13 +112,13 @@ export const moviesSlice = createSlice({
         },
         setFavoriteMovie: (state, action: PayloadAction<Movie>) => {
             const favoriteMovieClone = { ...action.payload };
-            const moviesClone: MovieResponse[] = [ ...state.movies ];
+            const moviesClone = [ ...state.movies ];
             const indexInMovies: number = moviesClone.map(x => x.id).indexOf(favoriteMovieClone.id);
             if (indexInMovies > -1) {
                 moviesClone.splice(indexInMovies, 1);
                 moviesClone.splice(indexInMovies, 0, favoriteMovieClone);
             }
-            const favoriteMoviesClone: MovieResponse[] = [ ...state.favoriteMovies ];
+            const favoriteMoviesClone = [ ...state.favoriteMovies ];
             if (favoriteMovieClone.isFavorite) {
                 favoriteMoviesClone.push(favoriteMovieClone);
             } else {

@@ -1,5 +1,13 @@
 import { useGet, usePost } from "./base-http-service";
-import { MoviesFilter, MoviesResponse, MovieResponse, MovieDetail, MarkAsFavoriteResponse, MarkAsFavoriteBody, GenresResponse } from "../models/movies";
+import {
+    MoviesFilter,
+    MoviesResponse,
+    MovieResponse,
+    MovieDetail,
+    MarkAsFavoriteResponse,
+    MarkAsFavoriteBody,
+    GenresResponse
+} from "../models/movies";
 
 const discoverPath = 'discover';
 const moviePath = 'movie';
@@ -30,13 +38,14 @@ export const useGetFavoriteMovies = () => {
         const favoriteMoviesFirstPage: MoviesResponse = (await getFavoriteMoviesByPage(accountId, sessionId, 1)).data;
         const favoriteMovies: MovieResponse[] = [];
         favoriteMovies.push(...favoriteMoviesFirstPage.results);
-        [...Array.from(Array(favoriteMoviesFirstPage.total_pages).keys())].forEach(async (page: number) => {
-            if (page > 1) {
-                favoriteMovies.push(
-                    ...(await getFavoriteMoviesByPage(accountId, sessionId, page)).data.results
-                );
-            }
-        });
+        [...Array.from(Array(favoriteMoviesFirstPage.total_pages).keys())]
+            .forEach(async (page: number) => {
+                if (page > 1) {
+                    favoriteMovies.push(
+                        ...(await getFavoriteMoviesByPage(accountId, sessionId, page)).data.results
+                    );
+                }
+            });
         return favoriteMovies;
     }
 }

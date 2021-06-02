@@ -2,8 +2,18 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 import { InputText, Button } from '../../components/primereact/index';
 import { useAppDispatch } from '../../redux/hooks';
-import { getAccountDetailsAsync, getRequestTokenAsync, getSessionIdAsync, validateLoginAsync } from '../../redux/login/login-slice';
-import { useGetAccountDetails, useGetRequestToken, useGetSessionId, useValidateLogin } from '../../services/authentication-service';
+import {
+    getAccountDetailsAsync,
+    getRequestTokenAsync,
+    getSessionIdAsync,
+    validateLoginAsync
+} from '../../redux/login/login-slice';
+import {
+    useGetAccountDetails,
+    useGetRequestToken,
+    useGetSessionId,
+    useValidateLogin
+} from '../../services/authentication-service';
 import { useGetFavoriteMovies } from '../../services/movies-service';
 import { getFavoriteMoviesAsync } from '../../redux/movies/movies-slice';
 
@@ -17,6 +27,7 @@ export const Login = () => {
     const getAccountDetails = useGetAccountDetails();
     const getFavoriteMovies = useGetFavoriteMovies();
     const history = useHistory();
+
     const login = (username: string, password: string) => {
         dispatch(getRequestTokenAsync(getRequestToken)).then(() => {
             dispatch(validateLoginAsync(username, password, validateLogin)).then(() => {

@@ -3,19 +3,12 @@ import { Link } from 'react-router-dom';
 import FavoriteMovieMarker from '../../../components/FavoriteMovieMarker';
 import defaultPoster from '../../../assets/default-poster.jpg';
 import { Card } from '../../../components/primereact';
+import { formatIsoDateAsShortDate } from "../../../utils/dates";
 
 export const MoviesGridItem = () => {
     return (movie: Movie) => {
         if (movie) {
-            const releaseDateFormatted = (releaseDate: string) => {
-                if (releaseDate) {
-                    const [year, month, day] = releaseDate.split('-');
-                    return `${day}/${month}/${year}`;
-                }
-                return '';
-            };
-    
-            const header = <Link to={{ pathname: `/detail/${movie.id}` }} className="no-style">
+            const header = <Link to={{ pathname: `/movie/${movie.id}` }} className="no-style">
                 <img
                     onError={ (e) => (e.target as any).src = defaultPoster }
                     src={ `https://image.tmdb.org/t/p/w500${movie.poster_path}` }
@@ -28,8 +21,11 @@ export const MoviesGridItem = () => {
                 <div className="p-md-3">
                     <Card style={ {height: '100%'} } className="p-card-shadow" header={ header }>
                         <div className="p-d-flex">
-                            <Link to={{ pathname: `/detail/${movie.id}` }} className="no-style">
-                                <h1 className="p-card-title" style={{ cursor: 'pointer', outline: 'none' }}>
+                            <Link to={{ pathname: `/movie/${movie.id}` }} className="no-style">
+                                <h1
+                                    className="p-card-title"
+                                    style={{ cursor: 'pointer', outline: 'none' }}
+                                >
                                     { movie.original_title }
                                 </h1>
                             </Link>
@@ -43,7 +39,7 @@ export const MoviesGridItem = () => {
                         <p className="p-mb-2">{ movie.overview }</p>
                         <div className="p-d-flex">
                             <p className="p-ml-auto p-card-subtitle">
-                                { releaseDateFormatted(movie.release_date) }
+                                { formatIsoDateAsShortDate(movie.release_date) }
                             </p>
                         </div>
                     </Card>

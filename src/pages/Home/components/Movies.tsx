@@ -4,8 +4,19 @@ import { TabView, TabPanel } from '../../../components/primereact';
 import { MovieSortOptions } from '../../../enums/movie-sort-options';
 import { GenreResponse, MoviesFilter } from '../../../models';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { selectFavoriteMoviesFilter, selectMoviesFilter, setFavoriteMoviesFilter, setMoviesFilter } from '../../../redux/movies/movies-filter-slice';
-import { getGenresAsync, getMoviesAsync, selectFavoriteMovies, selectGenres, selectMovies } from '../../../redux/movies/movies-slice';
+import {
+    selectFavoriteMoviesFilter,
+    selectMoviesFilter,
+    setFavoriteMoviesFilter,
+    setMoviesFilter
+} from '../../../redux/movies/movies-filter-slice';
+import {
+    getGenresAsync,
+    getMoviesAsync,
+    selectFavoriteMovies,
+    selectGenres,
+    selectMovies
+} from '../../../redux/movies/movies-slice';
 import { applyMoviesFilters, getMoviesByPage } from '../../../services/movies-filter-service';
 import { useGetGenres, useGetMovies } from '../../../services/movies-service';
 import '../../../styles/Movies.css';
@@ -49,8 +60,13 @@ export const Movies = () => {
 
     useEffect(() => {
         const handleSetFavoriteMovies = (newFavoriteMoviesFilter: MoviesFilter) => {
-            const newFilteredFavoriteMovies = applyMoviesFilters(favoriteMovies, newFavoriteMoviesFilter);
-            setFilteredFavoriteMovies(getMoviesByPage(newFilteredFavoriteMovies, newFavoriteMoviesFilter.page));
+            const newFilteredFavoriteMovies = applyMoviesFilters(
+                favoriteMovies,
+                newFavoriteMoviesFilter
+            );
+            setFilteredFavoriteMovies(
+                getMoviesByPage(newFilteredFavoriteMovies, newFavoriteMoviesFilter.page)
+            );
             setTotalFilteredFavoriteMovies(newFilteredFavoriteMovies.length);
         };
 

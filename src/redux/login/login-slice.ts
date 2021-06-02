@@ -1,5 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AccountResponse, GenericResponse, LoginRequestBody, SessionRequestBody, SessionResponse, TokenResponse } from "../../models";
+import {
+    AccountResponse,
+    GenericResponse,
+    LoginRequestBody,
+    SessionRequestBody,
+    SessionResponse,
+    TokenResponse
+} from "../../models";
 import { AppThunk, RootState } from '../store';
 
 export interface LoginState {
@@ -49,7 +56,9 @@ export const getSessionIdAsync = (
     getSessionId: (sessionRequestBody: SessionRequestBody) => Promise<GenericResponse<SessionResponse>>
 ): AppThunk<Promise<void>> => {
     return async (dispatch, getState) => {
-        const sessionRequestBody: SessionRequestBody = new SessionRequestBody(getState().login.requestToken);
+        const sessionRequestBody: SessionRequestBody = new SessionRequestBody(
+            getState().login.requestToken
+        );
         const sessionResponse = await getSessionId(sessionRequestBody);
         if (sessionResponse.success) {
             dispatch(setSessionId(sessionResponse.data.session_id));

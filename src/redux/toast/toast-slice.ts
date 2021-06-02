@@ -16,7 +16,9 @@ export const toastSlice = createSlice({
             state.toast = action.payload;
         },
         displayErrorToast: (state, action: PayloadAction<string>) => {
-            state.toast.current.show({severity:'error', summary: 'Error', detail: action.payload, life: 3000});
+            state.toast.current.show(
+                {severity:'error', summary: 'Error', detail: action.payload, life: 3000}
+            );
         }
     }
 });
