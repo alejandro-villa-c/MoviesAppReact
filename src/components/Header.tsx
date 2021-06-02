@@ -1,9 +1,9 @@
 import { Menubar, Button } from './primereact';
 import { Link, useHistory } from "react-router-dom";
 import { useAppSelector } from '../redux/hooks';
-import { selectAccountResponse, selectSessionId } from '../redux/login/loginSlice';
+import { selectAccountResponse, selectSessionId } from '../redux/login/login-slice';
 import { useLogout } from '../services/authentication-service';
-import { GenericResponse, LogoutResponse } from '../services/models';
+import { GenericResponse, LogoutResponse } from '../models';
 
 const useLogoutAndNavigate = () => {
     const logout = useLogout();

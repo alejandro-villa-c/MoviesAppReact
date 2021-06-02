@@ -1,21 +1,21 @@
 import { useAppDispatch } from "../redux/hooks";
-import { setAccountResponse, setRequestToken, setSessionId } from "../redux/login/loginSlice";
+import { setAccountResponse, setRequestToken, setSessionId } from "../redux/login/login-slice";
 import { useDelete, useGet, usePost } from "./base-http-service";
-import { GenericResponse, TokenResponse, LoginRequestBody, SessionRequestBody, SessionResponse, AccountResponse, LogoutResponse } from "./models/index";
+import { TokenResponse, LoginRequestBody, SessionRequestBody, SessionResponse, AccountResponse, LogoutResponse } from "../models/index";
 
 const authenticationPath = 'authentication';
 const tokenPath = 'token';
 const sessionPath = 'session';
 const accountPath = 'account';
 
-export const useGetRequestToken = (): () => Promise<GenericResponse<TokenResponse>> => {
+export const useGetRequestToken = () => {
     const get = useGet<TokenResponse>();
     return async () => {
         return await get(`${authenticationPath}/${tokenPath}/new`);
     }
 }
 
-export const useValidateLogin = (): (loginRequestBody: LoginRequestBody) => Promise<GenericResponse<TokenResponse>> => {
+export const useValidateLogin = () => {
     const post = usePost<TokenResponse, LoginRequestBody>();
     return async (loginRequestBody: LoginRequestBody) => {
         return await post(
@@ -24,7 +24,7 @@ export const useValidateLogin = (): (loginRequestBody: LoginRequestBody) => Prom
     }
 }
 
-export const useGetSessionId = (): (sessionRequestBody: SessionRequestBody) => Promise<GenericResponse<SessionResponse>> => {
+export const useGetSessionId = () => {
     const post = usePost<SessionResponse, SessionRequestBody>();
     return async (sessionRequestBody: SessionRequestBody) => {
         return await post(
@@ -33,14 +33,14 @@ export const useGetSessionId = (): (sessionRequestBody: SessionRequestBody) => P
     }
 }
 
-export const useGetAccountDetails = (): (sessionId: string) => Promise<GenericResponse<AccountResponse>> => {
+export const useGetAccountDetails = () => {
     const get = useGet<AccountResponse>();
     return async (sessionId: string) => {
         return await get(`${accountPath}?session_id=${sessionId}`);
     }
 }
 
-export const useLogout = (): (sessionId: string) => Promise<GenericResponse<LogoutResponse>> => {
+export const useLogout = () => {
     const httpDelete = useDelete<LogoutResponse>();
     const dispatch = useAppDispatch();
     return async (sessionId: string) => {

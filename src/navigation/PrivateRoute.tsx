@@ -1,6 +1,6 @@
 import { Route, Redirect } from 'react-router-dom';
 import { useAppSelector } from '../redux/hooks';
-import { selectAccountResponse } from '../redux/login/loginSlice';
+import { selectAccountResponse } from '../redux/login/login-slice';
 
 export const PrivateRoute = ({ children, ...rest }: { children: any, [x: string]: any }) => {
     const accountResponse = useAppSelector(selectAccountResponse);

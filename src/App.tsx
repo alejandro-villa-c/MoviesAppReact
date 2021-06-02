@@ -5,7 +5,7 @@ import PrimeReact from 'primereact/api';
 import { Toast } from 'primereact/toast';
 import { useEffect, useRef } from 'react';
 import { useAppDispatch } from './redux/hooks';
-import { setToast } from './redux/toast/toastSlice';
+import { setToast } from './redux/toast/toast-slice';
 import Header from './components/Header';
 
 PrimeReact.ripple = true;

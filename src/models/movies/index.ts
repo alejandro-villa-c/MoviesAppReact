@@ -1,0 +1,10 @@
+export { Movie } from './movie';
+export { MovieDetail } from './movie-detail';
+export { MarkAsFavoriteBody } from './mark-as-favorite-body';
+export { MoviesFilter } from './movies-filter';
+export * from './normalized-movies-filter';
+export * from './genre-response';
+export * from './genres-response';
+export * from './mark-as-favorite-response';
+export * from './movie-response';
+export * from './movies-response';

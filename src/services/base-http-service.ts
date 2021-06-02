@@ -1,6 +1,6 @@
 import { useAppDispatch } from "../redux/hooks";
-import { displayErrorToast } from "../redux/toast/toastSlice";
-import { GenericResponse } from "./models/index";
+import { displayErrorToast } from "../redux/toast/toast-slice";
+import { GenericResponse } from "../models/index";
 
 const useRequest = <T, K>(): (
     requestPath: string,

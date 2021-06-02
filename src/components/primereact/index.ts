@@ -3,3 +3,8 @@ export { Button } from 'primereact/button';
 export { Toast } from 'primereact/toast';
 export { Menubar } from 'primereact/menubar';
 export { TabView, TabPanel } from 'primereact/tabview';
+export { DataView } from 'primereact/dataview';
+export { Dropdown } from 'primereact/dropdown';
+export { Rating } from 'primereact/rating';
+export { MultiSelect } from 'primereact/multiselect';
+export { Card } from 'primereact/card';
