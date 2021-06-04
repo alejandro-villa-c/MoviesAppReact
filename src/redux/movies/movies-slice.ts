@@ -30,8 +30,12 @@ export const getMoviesAsync = (
 ): AppThunk<Promise<number>> => {
     return async (dispatch, getState) => {
         const moviesResponse = await getMovies(moviesFilter);
-        dispatch(setMovies(moviesResponse.data.results));
-        return Promise.resolve(moviesResponse.data.total_results);
+        if (moviesResponse.success) {
+            dispatch(setMovies(moviesResponse.data.results));
+            return Promise.resolve(moviesResponse.data.total_results);
+        } else {
+            return Promise.resolve(0);
+        }
     };
 }
 
@@ -41,9 +45,13 @@ export const getFavoriteMoviesAsync = (
     return async (dispatch, getState) => {
         const accountId = getState().login.accountResponse.id;
         const sessionId = getState().login.sessionId;
-        const favoriteMovies = await getFavoriteMovies(accountId, sessionId);
-        dispatch(setFavoriteMovies(favoriteMovies));
-        return Promise.resolve();
+        if (accountId && sessionId) {
+            const favoriteMovies = await getFavoriteMovies(accountId, sessionId);
+            dispatch(setFavoriteMovies(favoriteMovies));
+            return Promise.resolve();
+        } else {
+            return Promise.reject();
+        }
     };
 }
 
@@ -53,7 +61,9 @@ export const getGenresAsync = (
     return async (dispatch, getState) => {
         if (!getState().movies.genres || getState().movies.genres.length === 0) {
             const genresResponse = await getGenres();
-            dispatch(setGenres(genresResponse.data.genres));
+            if (genresResponse.success) {
+                dispatch(setGenres(genresResponse.data.genres));
+            }
         }
     };
 }

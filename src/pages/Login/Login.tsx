@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { InputText, Button } from '../../components/primereact/index';
 import { useAppDispatch } from '../../redux/hooks';
 import {
     getAccountDetailsAsync,
     getRequestTokenAsync,
     getSessionIdAsync,
+    setRequestToken,
+    setSessionId,
     validateLoginAsync
 } from '../../redux/login/login-slice';
 import {
@@ -37,7 +39,11 @@ export const Login = () => {
                             history.push('/');
                         });
                     });
+                }).catch(() => {
+                    dispatch(setSessionId(null));
                 });
+            }).catch(() => {
+                dispatch(setRequestToken(null));
             });
         });
     };

@@ -10,15 +10,17 @@ import {
 import { AppThunk, RootState } from '../store';
 
 export interface LoginState {
-    requestToken: string,
+    requestToken: TokenResponse,
     sessionId: string,
-    accountResponse: AccountResponse
+    accountResponse: AccountResponse,
+    isTokenExpired: boolean
 };
 
 const initialState: LoginState = {
-    requestToken: null,
+    requestToken: JSON.parse(atob(sessionStorage.getItem('token') || btoa('null'))) || null,
     sessionId: atob(sessionStorage.getItem('session-id')) || null,
-    accountResponse: JSON.parse(atob(sessionStorage.getItem('account-details') || btoa('null'))) || null
+    accountResponse: JSON.parse(atob(sessionStorage.getItem('account-details') || btoa('null'))) || null,
+    isTokenExpired: false
 };
 
 export const getRequestTokenAsync = (
@@ -27,7 +29,7 @@ export const getRequestTokenAsync = (
     return async (dispatch, getState) => {
         const tokenResponse = await getRequestToken();
         if (tokenResponse.success) {
-            dispatch(setRequestToken(tokenResponse.data.request_token));
+            dispatch(setRequestToken(tokenResponse.data));
             return Promise.resolve();
         } else {
             return Promise.reject();
@@ -41,11 +43,16 @@ export const validateLoginAsync = (
     validateLogin: (loginRequestBody: LoginRequestBody) => Promise<GenericResponse<TokenResponse>>
 ): AppThunk<Promise<void>> => {
     return async (dispatch, getState) => {
-        const loginRequestBody = new LoginRequestBody(username, password, getState().login.requestToken);
-        const validateLoginResponse = await validateLogin(loginRequestBody);
-        if (validateLoginResponse.success) {
-            dispatch(setRequestToken(validateLoginResponse.data.request_token));
-            return Promise.resolve();
+        const requestToken = getState().login.requestToken.request_token;
+        if (requestToken) {
+            const loginRequestBody = new LoginRequestBody(username, password, requestToken);
+            const validateLoginResponse = await validateLogin(loginRequestBody);
+            if (validateLoginResponse.success) {
+                dispatch(setRequestToken(validateLoginResponse.data));
+                return Promise.resolve();
+            } else {
+                return Promise.reject();
+            }
         } else {
             return Promise.reject();
         }
@@ -56,13 +63,18 @@ export const getSessionIdAsync = (
     getSessionId: (sessionRequestBody: SessionRequestBody) => Promise<GenericResponse<SessionResponse>>
 ): AppThunk<Promise<void>> => {
     return async (dispatch, getState) => {
-        const sessionRequestBody: SessionRequestBody = new SessionRequestBody(
-            getState().login.requestToken
-        );
-        const sessionResponse = await getSessionId(sessionRequestBody);
-        if (sessionResponse.success) {
-            dispatch(setSessionId(sessionResponse.data.session_id));
-            return Promise.resolve();
+        const requestToken = getState().login.requestToken.request_token;
+        if (requestToken) {
+            const sessionRequestBody: SessionRequestBody = new SessionRequestBody(
+                requestToken
+            );
+            const sessionResponse = await getSessionId(sessionRequestBody);
+            if (sessionResponse.success) {
+                dispatch(setSessionId(sessionResponse.data.session_id));
+                return Promise.resolve();
+            } else {
+                return Promise.reject();
+            }
         } else {
             return Promise.reject();
         }
@@ -73,10 +85,15 @@ export const getAccountDetailsAsync = (
     getAccountDetails: (sessionId: string) => Promise<GenericResponse<AccountResponse>>
 ): AppThunk<Promise<void>> => {
     return async (dispatch, getState) => {
-        const accountResponse = await getAccountDetails(getState().login.sessionId);
-        if (accountResponse.success) {
-            dispatch(setAccountResponse(accountResponse.data));
-            return Promise.resolve();
+        const sessionId = getState().login.sessionId;
+        if (sessionId) {
+            const accountResponse = await getAccountDetails(sessionId);
+            if (accountResponse.success) {
+                dispatch(setAccountResponse(accountResponse.data));
+                return Promise.resolve();
+            } else {
+                return Promise.reject();
+            }
         } else {
             return Promise.reject();
         }
@@ -87,8 +104,10 @@ export const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        setRequestToken: (state, action: PayloadAction<string>) => {
-            state.requestToken = action.payload;
+        setRequestToken: (state, action: PayloadAction<TokenResponse>) => {
+            const tokenResponse = action.payload;
+            sessionStorage.setItem('token', btoa(JSON.stringify(tokenResponse)));
+            state.requestToken = tokenResponse;
         },
         setSessionId: (state, action: PayloadAction<string>) => {
             const sessionId = action.payload;
@@ -99,14 +118,18 @@ export const loginSlice = createSlice({
             const accountResponse = action.payload;
             sessionStorage.setItem('account-details', btoa(JSON.stringify(accountResponse)));
             state.accountResponse = accountResponse;
+        },
+        setIsTokenExpired: (state, action: PayloadAction<boolean>) => {
+            state.isTokenExpired = action.payload;
         }
     }
 });
 
-export const { setRequestToken, setSessionId, setAccountResponse } = loginSlice.actions;
+export const { setRequestToken, setSessionId, setAccountResponse, setIsTokenExpired } = loginSlice.actions;
 
 export const selectRequestToken = (state: RootState) => state.login.requestToken;
 export const selectSessionId = (state: RootState) => state.login.sessionId;
 export const selectAccountResponse = (state: RootState) => state.login.accountResponse;
+export const selectIsTokenExpired = (state: RootState) => state.login.isTokenExpired;
 
 export default loginSlice.reducer;

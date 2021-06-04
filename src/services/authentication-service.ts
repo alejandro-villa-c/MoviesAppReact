@@ -9,6 +9,7 @@ import {
     AccountResponse,
     LogoutResponse
 } from "../models/index";
+import { setFavoriteMovies } from "../redux/movies/movies-slice";
 
 const authenticationPath = 'authentication';
 const tokenPath = 'token';
@@ -54,6 +55,7 @@ export const useLogout = () => {
         dispatch(setRequestToken(null));
         dispatch(setSessionId(null));
         dispatch(setAccountResponse(null));
+        dispatch(setFavoriteMovies([]));
         return await httpDelete(
             `${authenticationPath}/${sessionPath}?session_id=${sessionId}`
         );
