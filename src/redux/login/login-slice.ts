@@ -12,15 +12,13 @@ import { AppThunk, RootState } from '../store';
 export interface LoginState {
     requestToken: TokenResponse,
     sessionId: string,
-    accountResponse: AccountResponse,
-    isTokenExpired: boolean
+    accountResponse: AccountResponse
 };
 
 const initialState: LoginState = {
     requestToken: JSON.parse(atob(sessionStorage.getItem('token') || btoa('null'))) || null,
     sessionId: atob(sessionStorage.getItem('session-id')) || null,
-    accountResponse: JSON.parse(atob(sessionStorage.getItem('account-details') || btoa('null'))) || null,
-    isTokenExpired: false
+    accountResponse: JSON.parse(atob(sessionStorage.getItem('account-details') || btoa('null'))) || null
 };
 
 export const getRequestTokenAsync = (
@@ -118,18 +116,14 @@ export const loginSlice = createSlice({
             const accountResponse = action.payload;
             sessionStorage.setItem('account-details', btoa(JSON.stringify(accountResponse)));
             state.accountResponse = accountResponse;
-        },
-        setIsTokenExpired: (state, action: PayloadAction<boolean>) => {
-            state.isTokenExpired = action.payload;
         }
     }
 });
 
-export const { setRequestToken, setSessionId, setAccountResponse, setIsTokenExpired } = loginSlice.actions;
+export const { setRequestToken, setSessionId, setAccountResponse } = loginSlice.actions;
 
 export const selectRequestToken = (state: RootState) => state.login.requestToken;
 export const selectSessionId = (state: RootState) => state.login.sessionId;
 export const selectAccountResponse = (state: RootState) => state.login.accountResponse;
-export const selectIsTokenExpired = (state: RootState) => state.login.isTokenExpired;
 
 export default loginSlice.reducer;

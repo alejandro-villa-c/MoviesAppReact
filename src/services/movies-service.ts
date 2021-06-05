@@ -8,6 +8,13 @@ import {
     MarkAsFavoriteBody,
     GenresResponse
 } from "../models/movies";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { selectRequestToken } from "../redux/login/login-slice";
+import getIsTokenExpired from "../utils/get-is-token-expired";
+import { displayErrorToast } from "../redux/toast/toast-slice";
+import { GenericResponse } from "../models";
+import { useHistory } from "react-router";
+import { useLogout } from "./authentication-service";
 
 const discoverPath = 'discover';
 const moviePath = 'movie';
@@ -61,11 +68,26 @@ export const useGetFavoriteMoviesByPage = () => {
 
 export const useMarkAsFavorite = () => {
     const post = usePost<MarkAsFavoriteResponse, MarkAsFavoriteBody>();
+    const requestToken = useAppSelector(selectRequestToken);
+    const dispatch = useAppDispatch();
+    const logout = useLogout();
+    const history = useHistory();
     return async (
         accountId: number,
         sessionId: string,
         markAsFavoriteBody: MarkAsFavoriteBody
     ) => {
+        if (requestToken) {
+            const isTokenExpired = getIsTokenExpired(requestToken);
+            if (isTokenExpired) {
+                logout(sessionId).then(() => {
+                    const errorMessage = 'Token expirado.';
+                    dispatch(displayErrorToast(errorMessage));
+                    history.push('/login');
+                    return Promise.resolve(new GenericResponse(null, false, errorMessage));
+                });
+            }
+        }
         return await post(
             `${accountPath}/${accountId}/${favoritePath}?session_id=${sessionId}`,
             markAsFavoriteBody
