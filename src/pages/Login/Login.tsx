@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { InputText, Button } from '../../components/primereact/index';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
     getAccountDetailsAsync,
     getRequestTokenAsync,
     getSessionIdAsync,
+    selectAccountResponse,
     setRequestToken,
     setSessionId,
     validateLoginAsync
@@ -18,6 +19,7 @@ import {
 } from '../../services/authentication-service';
 import { useGetFavoriteMovies } from '../../services/movies-service';
 import { getFavoriteMoviesAsync } from '../../redux/movies/movies-slice';
+import useMountEffect from '../../utils/use-mount-effect';
 
 export const Login = () => {
     const [username, setUsername] = useState('');
@@ -29,6 +31,13 @@ export const Login = () => {
     const getAccountDetails = useGetAccountDetails();
     const getFavoriteMovies = useGetFavoriteMovies();
     const history = useHistory();
+    const accountResponse = useAppSelector(selectAccountResponse);
+
+    useMountEffect(() => {
+        if (!!accountResponse) {
+            history.push('/');
+        }
+    });
 
     const login = (username: string, password: string) => {
         dispatch(getRequestTokenAsync(getRequestToken)).then(() => {
