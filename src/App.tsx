@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import RouterConfig from './navigation/RouterConfig';
 import './App.css';
 import PrimeReact from 'primereact/api';
-import { Toast } from 'primereact/toast';
+import { Toast } from './components/primereact';
 import { useRef } from 'react';
 import { useAppDispatch } from './redux/hooks';
 import { setToast } from './redux/toast/toast-slice';

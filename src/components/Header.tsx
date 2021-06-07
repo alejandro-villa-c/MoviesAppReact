@@ -5,22 +5,18 @@ import { selectAccountResponse, selectSessionId } from '../redux/login/login-sli
 import { useLogout } from '../services/authentication-service';
 import { GenericResponse, LogoutResponse } from '../models';
 
-const useLogoutAndNavigate = () => {
+export const Header = () => {
+    const accountResponse = useAppSelector(selectAccountResponse);
+    const sessionId = useAppSelector(selectSessionId);
     const logout = useLogout();
     const history = useHistory();
-    return (sessionId: string) => {
+    const logoutAndNavigate = (sessionId: string) => {
         logout(sessionId).then((logoutResponse: GenericResponse<LogoutResponse>) => {
             if (logoutResponse.success) {
                 history.push('/login');
             }
         });
     }
-}
-
-export const Header = () => {
-    const accountResponse = useAppSelector(selectAccountResponse);
-    const sessionId = useAppSelector(selectSessionId);
-    const logoutAndNavigate = useLogoutAndNavigate();
 
     const start = <Link to={{ pathname: '/' }} className="no-style">
         <h1 style={{ cursor: 'pointer', outline: 'none' }}>
